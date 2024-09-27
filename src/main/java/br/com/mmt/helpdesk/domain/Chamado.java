@@ -37,6 +37,12 @@ public class Chamado implements Serializable {
     @Column(name = "STATUS")
     private Status status;
 
+    @Column(name = "TITULO")
+    private String titulo;
+
+    @Column(name = "OBSERVACAO")
+    private String observacao;
+
     @ManyToOne
     @JoinColumn(name = "TECNICO_ID")
     private Tecnico tecnico;
@@ -49,12 +55,14 @@ public class Chamado implements Serializable {
         super();
     }
 
-    public Chamado(Integer id, LocalDateTime dataAbertura, LocalDateTime dataFechamento, Prioridade prioridade, Status status, Tecnico tecnico, Cliente cliente) {
+    public Chamado(Integer id, LocalDateTime dataFechamento, Prioridade prioridade, Status status, String titulo, String observacao, Tecnico tecnico, Cliente cliente) {
         this.id = id;
-        this.dataAbertura = dataAbertura;
+        this.dataAbertura = LocalDateTime.now();
         this.dataFechamento = dataFechamento;
         this.prioridade = prioridade;
         this.status = status;
+        this.titulo = titulo;
+        this.observacao = observacao;
         this.tecnico = tecnico;
         this.cliente = cliente;
     }
@@ -115,16 +123,32 @@ public class Chamado implements Serializable {
         this.cliente = cliente;
     }
 
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public String getObservacao() {
+        return observacao;
+    }
+
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Chamado)) return false;
         Chamado chamado = (Chamado) o;
-        return Objects.equals(getId(), chamado.getId()) && Objects.equals(getDataAbertura(), chamado.getDataAbertura()) && Objects.equals(getDataFechamento(), chamado.getDataFechamento()) && getPrioridade() == chamado.getPrioridade() && getStatus() == chamado.getStatus() && Objects.equals(getTecnico(), chamado.getTecnico()) && Objects.equals(getCliente(), chamado.getCliente());
+        return Objects.equals(getId(), chamado.getId()) && Objects.equals(getDataAbertura(), chamado.getDataAbertura()) && Objects.equals(getDataFechamento(), chamado.getDataFechamento()) && getPrioridade() == chamado.getPrioridade() && getStatus() == chamado.getStatus() && Objects.equals(getTitulo(), chamado.getTitulo()) && Objects.equals(getObservacao(), chamado.getObservacao()) && Objects.equals(getTecnico(), chamado.getTecnico()) && Objects.equals(getCliente(), chamado.getCliente());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getDataAbertura(), getDataFechamento(), getPrioridade(), getStatus(), getTecnico(), getCliente());
+        return Objects.hash(getId(), getDataAbertura(), getDataFechamento(), getPrioridade(), getStatus(), getTitulo(), getObservacao(), getTecnico(), getCliente());
     }
 }
