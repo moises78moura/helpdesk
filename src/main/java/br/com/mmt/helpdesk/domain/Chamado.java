@@ -2,20 +2,47 @@ package br.com.mmt.helpdesk.domain;
 
 import br.com.mmt.helpdesk.domain.enuns.Prioridade;
 import br.com.mmt.helpdesk.domain.enuns.Status;
+import org.hibernate.annotations.ManyToAny;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import java.time.LocalDate;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class Chamado {
+@Entity(name = "CHAMADO")
+public class Chamado implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
     private Integer id;
+
+    @Column(name = "DATA_ABERTURA")
     private LocalDateTime dataAbertura = LocalDateTime.now();
+
+    @Column(name = "DATA_FECHAMENTO")
     private LocalDateTime dataFechamento;
+
+    @Column(name = "PRIORIDADE")
     private Prioridade prioridade;
+
+    @Column(name = "STATUS")
     private Status status;
+
+    @ManyToOne
+    @JoinColumn(name = "TECNICO_ID")
     private Tecnico tecnico;
+
+    @ManyToOne
+    @JoinColumn(name = "CLIENTE_ID")
     private Cliente  cliente;
 
     public Chamado() {

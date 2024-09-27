@@ -1,21 +1,50 @@
 package br.com.mmt.helpdesk.domain;
 
 import br.com.mmt.helpdesk.domain.enuns.Perfil;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public abstract class Pessoa {
+@Entity(name = "PESSOA")
+public abstract class Pessoa implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
     protected Integer id;
+
+    @Column(name = "NOME")
     protected String nome;
+
+    @Column(name = "CPF", unique = true)
     protected String cpf;
+
+    @Column(name = "EMAIL", unique = true)
     protected String email;
+
+    @Column(name = "SENHA")
     protected String senha;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "PERFIL")
     protected Set<Integer> perfis = new HashSet<>();
+
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
+    @Column(name = "DATA_CRIACAO")
     protected LocalDate dataCriacao = LocalDate.now();
 
     public Pessoa() {
