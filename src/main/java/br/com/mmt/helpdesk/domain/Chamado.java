@@ -2,6 +2,7 @@ package br.com.mmt.helpdesk.domain;
 
 import br.com.mmt.helpdesk.domain.enuns.Prioridade;
 import br.com.mmt.helpdesk.domain.enuns.Status;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.annotations.ManyToAny;
 
 import javax.persistence.Column;
@@ -25,9 +26,11 @@ public class Chamado implements Serializable {
     @Column(name = "ID")
     private Integer id;
 
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     @Column(name = "DATA_ABERTURA")
     private LocalDateTime dataAbertura = LocalDateTime.now();
 
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     @Column(name = "DATA_FECHAMENTO")
     private LocalDateTime dataFechamento;
 
