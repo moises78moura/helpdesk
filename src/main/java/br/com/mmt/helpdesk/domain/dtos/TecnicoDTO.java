@@ -1,13 +1,10 @@
 package br.com.mmt.helpdesk.domain.dtos;
 
-import br.com.mmt.helpdesk.domain.Tecnico;
 import br.com.mmt.helpdesk.domain.enuns.Perfil;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.hibernate.validator.constraints.br.CPF;
 
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.FetchType;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -18,16 +15,26 @@ public class TecnicoDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private Integer id;
+
+    @NotBlank(message = "Campo nome é Obrigatório")
     private String nome;
+
+    @NotBlank(message = "Campo CPF é Obrigatório")
     private String cpf;
+
+    @NotBlank(message = "Campo Email é Obrigatório")
     private String email;
+
+    @NotBlank(message = "Campo Senha é Obrigatório")
     private String senha;
+
     private Set<Integer> perfis = new HashSet<>();
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate dataCriacao = LocalDate.now();
 
     public TecnicoDTO() {
         super();
+        addPerfil(Perfil.TECNICO);
     }
 
 //    public TecnicoDTO(Tecnico tecnico) {

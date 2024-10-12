@@ -10,14 +10,19 @@ import org.modelmapper.config.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.awt.*;
+import java.net.URI;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,8 +45,8 @@ public class TecnicoResource {
     @GetMapping(value = "/{id}")
     public ResponseEntity<TecnicoDTO> findBy(@PathVariable Integer id){
 
-        Tecnico tecnico = service.findById(id);
-        TecnicoDTO tecnicoDTO = modelMapper.map(tecnico, TecnicoDTO.class);
+        TecnicoDTO tecnicoDTO = service.findById(id);
+
         return ResponseEntity.ok().body(tecnicoDTO);
     }
 
@@ -55,10 +60,27 @@ public class TecnicoResource {
     }
 
     @PostMapping
-    public ResponseEntity<TecnicoDTO> create(@RequestBody TecnicoDTO tecnico){
+    public ResponseEntity<TecnicoDTO> create(@RequestBody @Validated TecnicoDTO tecnico){
 
         TecnicoDTO tecnicoResponse = service.save(tecnico);
-        return ResponseEntity.ok().body(tecnicoResponse);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri()
+                .path("/{id}")
+                .buildAndExpand(tecnicoResponse.getId())
+                .toUri();
+        return ResponseEntity.created(uri).build();
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<TecnicoDTO> update(@PathVariable Integer id, @RequestBody @Validated TecnicoDTO tecnico){
+
+        TecnicoDTO tecnicoDTO = service.update(id, tecnico);
+        return ResponseEntity.ok().body(tecnicoDTO);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<TecnicoDTO> delete(@PathVariable Integer id){
+        service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

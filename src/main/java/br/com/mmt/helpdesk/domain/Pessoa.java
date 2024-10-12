@@ -2,6 +2,7 @@ package br.com.mmt.helpdesk.domain;
 
 import br.com.mmt.helpdesk.domain.enuns.Perfil;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -30,6 +31,7 @@ public abstract class Pessoa implements Serializable {
     @Column(name = "NOME")
     protected String nome;
 
+    @CPF(message = "CPF Inválido")
     @Column(name = "CPF", unique = true)
     protected String cpf;
 
