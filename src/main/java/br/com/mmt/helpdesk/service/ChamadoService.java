@@ -11,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -30,19 +31,15 @@ public class ChamadoService {
 
         Optional<Chamado> chamado = repository.findById(id);
 
-
         String mensagem = String.format("Chamado com o ID: %s não encontrado! ",id);
         Chamado chamadoResponse = chamado.orElseThrow(() -> new ObjectNotFoundException(mensagem));
-
-        ChamadoDTO chamadoDTO = this.chamadoModelMapper.map(chamadoResponse, ChamadoDTO.class);
-        return chamadoDTO;
+        return this.chamadoModelMapper.map(chamadoResponse, ChamadoDTO.class);
 
     }
 
     public List<ChamadoDTO> findAll(){
         List<Chamado> chamados = repository.findAll();
-        List<ChamadoDTO> chamadosDTO = chamados.stream().map(chamado -> this.chamadoModelMapper.map(chamado, ChamadoDTO.class)).collect(Collectors.toList());
-        return chamadosDTO;
+        return chamados.stream().map(chamado -> this.chamadoModelMapper.map(chamado, ChamadoDTO.class)).collect(Collectors.toList());
     }
 
     public ChamadoDTO save(ChamadoDTO chamadoDTO){
@@ -65,17 +62,14 @@ public class ChamadoService {
 
     public ChamadoDTO update(Integer id, ChamadoDTO chamado){
 
-//        Chamado chamadoToUpdate = findById(id);
-//
-//        chamadoToUpdate.setCliente(chamado.getCliente());
-//        chamadoToUpdate.setDataAbertura(chamado.getDataAbertura());
-//        chamadoToUpdate.setObservacao(chamado.getObservacao());
-//        chamadoToUpdate.setPrioridade(chamado.getPrioridade());
-//        chamadoToUpdate.setStatus(chamado.getStatus());
-//        chamadoToUpdate.setTecnico(chamado.getTecnico());
-//        chamadoToUpdate.setDataFechamento(chamado.getDataFechamento());
-//
-//        return repository.save(chamadoToUpdate);
+        if(chamado.getCodigoStatus().equals(Status.ENCERRADO.getCodigo())){
+            chamado.setDataFechamento(LocalDateTime.now());
+        }
+        ChamadoDTO chamadoToUpdate = findById(id);
+        if (chamadoToUpdate != null && chamadoToUpdate.getId().equals(chamado.getId()) && chamado.getId().equals(id)){
+            return save(chamado);
+        }
+
         return null;
     }
 
