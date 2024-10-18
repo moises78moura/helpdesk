@@ -2,7 +2,6 @@ package br.com.mmt.helpdesk.domain.dtos;
 
 import br.com.mmt.helpdesk.domain.enuns.Perfil;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;

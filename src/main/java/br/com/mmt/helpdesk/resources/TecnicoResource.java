@@ -2,13 +2,8 @@ package br.com.mmt.helpdesk.resources;
 
 import br.com.mmt.helpdesk.domain.Tecnico;
 import br.com.mmt.helpdesk.domain.dtos.TecnicoDTO;
-import br.com.mmt.helpdesk.domain.enuns.Perfil;
 import br.com.mmt.helpdesk.service.TecnicoService;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeMap;
-import org.modelmapper.config.Configuration;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,12 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.awt.*;
 import java.net.URI;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @RestController
 @RequestMapping(value = "/tecnicos")
