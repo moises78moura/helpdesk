@@ -8,6 +8,7 @@ import br.com.mmt.helpdesk.domain.repository.PessoaRepository;
 import br.com.mmt.helpdesk.resources.exceptions.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,11 +21,13 @@ public class ClienteService {
     private final ClienteRepository repository;
     private final PessoaRepository pessoaRepository;
     private final ModelMapper modelMapper;
+    private final BCryptPasswordEncoder encoder;
 
-    public ClienteService(ClienteRepository repository, PessoaRepository pessoaRepository, ModelMapper modelMapper) {
+    public ClienteService(ClienteRepository repository, PessoaRepository pessoaRepository, ModelMapper modelMapper, BCryptPasswordEncoder encoder) {
         this.repository = repository;
         this.pessoaRepository = pessoaRepository;
         this.modelMapper = modelMapper;
+        this.encoder = encoder;
     }
 
     public ClienteDTO findById(Integer id){
@@ -46,6 +49,7 @@ public class ClienteService {
 
     public ClienteDTO save(ClienteDTO clienteDTO) {
 
+        clienteDTO.setSenha(encoder.encode(clienteDTO.getSenha()));
 
         Cliente clienteToSave = modelMapper.map(clienteDTO, Cliente.class);
         checarSeExisteCpfCadastrado(clienteToSave);

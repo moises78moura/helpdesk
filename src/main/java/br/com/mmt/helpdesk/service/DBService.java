@@ -10,6 +10,7 @@ import br.com.mmt.helpdesk.domain.repository.ChamadoRepository;
 import br.com.mmt.helpdesk.domain.repository.ClienteRepository;
 import br.com.mmt.helpdesk.domain.repository.TecnicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -26,11 +27,15 @@ public class DBService {
     @Autowired
     private ChamadoRepository chamadoRepository;
 
+    @Autowired
+    private BCryptPasswordEncoder encoder;
+
+
     public void instaciaDB(){
-        Tecnico tecnico = new Tecnico(null, "Moises Moura", "33985840040", "moises@ig.com", "132456");
+        Tecnico tecnico = new Tecnico(null, "Moises Moura", "33985840040", "moises@ig.com", encoder.encode("123456"));
         tecnico.addPerfil(Perfil.ADMIN);
 
-        Cliente cliente = new Cliente(null, "Veronica", "59510644064", "veronica@ig.com", "132456");
+        Cliente cliente = new Cliente(null, "Veronica", "59510644064", "veronica@ig.com", encoder.encode("123456"));
 
         Chamado chamado = new Chamado(null, null, Prioridade.MEDIA, Status.ANDAMENTO, "Chamado 01", "Teste primeiro chamado", tecnico, cliente);
 

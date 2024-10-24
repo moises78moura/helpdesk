@@ -8,6 +8,7 @@ import br.com.mmt.helpdesk.domain.repository.TecnicoRepository;
 import br.com.mmt.helpdesk.resources.exceptions.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,11 +21,14 @@ public class TecnicoService {
     private final TecnicoRepository repository;
     private final PessoaRepository pessoaRepository;
     private final ModelMapper modelMapper;
+    private final BCryptPasswordEncoder encoder;
 
-    public TecnicoService(TecnicoRepository repository, PessoaRepository pessoaRepository, ModelMapper modelMapper) {
+
+    public TecnicoService(TecnicoRepository repository, PessoaRepository pessoaRepository, ModelMapper modelMapper, BCryptPasswordEncoder encoder) {
         this.repository = repository;
         this.pessoaRepository = pessoaRepository;
         this.modelMapper = modelMapper;
+        this.encoder = encoder;
     }
 
     public TecnicoDTO findById(Integer id){
@@ -46,6 +50,7 @@ public class TecnicoService {
 
     public TecnicoDTO save(TecnicoDTO tecnicoDTO) {
 
+        tecnicoDTO.setSenha(encoder.encode(tecnicoDTO.getSenha()));
 
         Tecnico tecnicoToSave = modelMapper.map(tecnicoDTO, Tecnico.class);
         checarSeExisteCpfCadastrado(tecnicoToSave);
