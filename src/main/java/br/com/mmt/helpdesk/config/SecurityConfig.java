@@ -2,9 +2,11 @@ package br.com.mmt.helpdesk.config;
 
 import br.com.mmt.helpdesk.security.JWTUtil;
 import br.com.mmt.helpdesk.security.JwtAuthenticationFilter;
+import br.com.mmt.helpdesk.security.JwtAuthorizationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -18,9 +20,10 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    public static final String[] METHODS = {"POST", "GET", "PUT", "OPTIONS"};
+    public static final String[] METHODS = {"POST", "GET", "PUT", "DELETE", "OPTIONS"};
     public static final String[] PUBLIC_MATCHERS = {"/h2-console/**"};
 
     private final Environment environment;
@@ -42,6 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.cors().and().csrf().disable();
         http.addFilter(new JwtAuthenticationFilter(authenticationManager(), jwtUtil));
+        http.addFilter(new JwtAuthorizationFilter(authenticationManager(), jwtUtil, userDetailService));
         http.authorizeRequests()
                 .antMatchers(PUBLIC_MATCHERS).permitAll()
                 .anyRequest().authenticated();

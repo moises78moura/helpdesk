@@ -5,6 +5,7 @@ import br.com.mmt.helpdesk.domain.dtos.TecnicoDTO;
 import br.com.mmt.helpdesk.service.TecnicoService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,6 +52,7 @@ public class TecnicoResource {
         return ResponseEntity.ok().body(tecnicoDTOList);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping
     public ResponseEntity<TecnicoDTO> create(@RequestBody @Validated TecnicoDTO tecnico){
 
@@ -62,6 +64,7 @@ public class TecnicoResource {
         return ResponseEntity.created(uri).build();
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PutMapping(value = "/{id}")
     public ResponseEntity<TecnicoDTO> update(@PathVariable Integer id, @RequestBody @Validated TecnicoDTO tecnico){
 
@@ -69,6 +72,7 @@ public class TecnicoResource {
         return ResponseEntity.ok().body(tecnicoDTO);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<TecnicoDTO> delete(@PathVariable Integer id){
         service.delete(id);
