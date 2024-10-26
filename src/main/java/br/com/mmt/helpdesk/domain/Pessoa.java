@@ -12,6 +12,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -19,7 +22,9 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Entity(name = "PESSOA")
+@Entity
+@Table(name = "PESSOA", schema = "helpdesk")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class Pessoa implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -3,12 +3,14 @@ package br.com.mmt.helpdesk.domain;
 import br.com.mmt.helpdesk.domain.enuns.Perfil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "TECNICO")
+@DiscriminatorValue("TECNICO")
 public class Tecnico extends Pessoa{
     private static final long serialVersionUID = 1L;
 
