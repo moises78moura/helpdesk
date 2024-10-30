@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity(name = "CHAMADO")
-@Table(name = "CHAMADO", schema = "helpdesk")
+//@Table(name = "CHAMADO", schema = "helpdesk")
 public class Chamado implements Serializable {
 
     private static final long serialVersionUID = 1L;

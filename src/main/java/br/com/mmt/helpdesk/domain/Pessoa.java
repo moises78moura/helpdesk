@@ -23,7 +23,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
-@Table(name = "PESSOA", schema = "helpdesk")
+//@Table(name = "PESSOA", schema = "helpdesk")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class Pessoa implements Serializable {
 
