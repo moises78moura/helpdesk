@@ -1,4 +1,4 @@
-CREATE SCHEMA IF NOT EXISTS helpdesk AUTHORIZATION postgres;
+CREATE SCHEMA IF NOT EXISTS helpdesk AUTHORIZATION admin;
 
 alter table if exists helpdesk.CHAMADO
 drop constraint if exists FKaeg6624elvee1nkfqgyphdkw5;
