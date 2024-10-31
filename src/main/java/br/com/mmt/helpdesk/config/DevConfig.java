@@ -14,16 +14,16 @@ public class DevConfig {
     @Autowired
     private DBService dbService;
 
-    @Value("${spring.jpa.hibernate.ddl-auto}")
-    private String value;
+//    @Value("${spring.jpa.hibernate.ddl-auto}")
+//    private String value;
 
 
-    @Bean
+//    @Bean
     public boolean instanciaDB(){
 
-        if(value.equals("create")){
-            this.dbService.instaciaDB();
-        }
+//        if(value.equals("create")){
+//            this.dbService.instaciaDB();
+//        }
         return false;
     }
 

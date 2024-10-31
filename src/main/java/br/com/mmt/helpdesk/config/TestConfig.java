@@ -13,7 +13,7 @@ public class TestConfig {
     @Autowired
     private DBService dbService;
 
-    @Bean
+//    @Bean
     public void instanciaDB(){
         this.dbService.instaciaDB();
     }
